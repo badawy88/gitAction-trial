@@ -23,7 +23,7 @@ jobs:
       run: docker save home4u/home4u-ui > home4u-ui.tar
 
     - name: Upload Docker Image TAR as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: home4u-ui-tar
         path: home4u-ui.tar
