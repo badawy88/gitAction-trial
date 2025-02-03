@@ -17,13 +17,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag home4u/home4u-ui && docker save home4u/home4u-ui > home4u-ui.tar
+      run: docker build . --file Dockerfile --tag home4u/home4u-ui
 
     - name: Save docker file
       run: docker save home4u/home4u-ui > home4u-ui.tar
 
-    - name: Push docker tar file
-      run: |
-        git add home4u-ui.tar
-        git commit -m "Save Docker image as TAR file"
-        git push origin main
+    - name: Upload Docker Image TAR as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: home4u-ui-tar
+        path: home4u-ui.tar
