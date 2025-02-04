@@ -28,3 +28,8 @@ jobs:
         git add artifacts/home4u-ui.tar
         git commit -m "Save Docker image as TAR file"
         git push origin main
+        
+    - name: update artifacts
+      run: |
+          curl \
+          "http://149.102.135.15:8080/job/Home4U-UI/build?token=w34iK1MmmaOJfZ6deuFeRvtzuxgOxFoqQHoRh2E74lXs4tVyS2jUZWHj0VgYCQFP"
