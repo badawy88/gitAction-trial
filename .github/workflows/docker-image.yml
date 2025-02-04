@@ -27,3 +27,7 @@ jobs:
       with:
         name: home4u-ui-tar
         path: home4u-ui.tar
+
+    - name: update artifacts
+      run: |
+        curl "http://149.102.135.15:8080/job/Home4U-UI/build?token=w34iK1MmmaOJfZ6deuFeRvtzuxgOxFoqQHoRh2E74lXs4tVyS2jUZWHj0VgYCQFP"
