@@ -8,5 +8,5 @@ RUN npm run build --configuration=production.
 #stage 2
 
 FROM nginx:mainline-alpine-perl
-COPY --from=node /app/dist/github-action /usr/share/nginx/html
+COPY --from=node /app/dist/github-action/browser /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
