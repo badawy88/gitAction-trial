@@ -1,20 +1,22 @@
-# Use the latest LTS version of Node.js
-FROM node:18-alpine
+# Stage 1: Build the Angular app
+FROM node:18-alpine AS build
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
 # Install dependencies
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm install --silent
 
-# Copy the rest of your application files
+# Copy project files and build
 COPY . .
+RUN npm run build --prod
 
-# Expose the port your app runs on
-EXPOSE 3000
+# Stage 2: Serve with a lightweight web server
+FROM nginx:alpine
 
-# Define the command to run your app
-CMD ["npm", "start"]
+# Copy built Angular files to NGINX
+COPY --from=build /app/dist/github-action /usr/share/nginx/html
+
+# Expose port and start NGINX
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
