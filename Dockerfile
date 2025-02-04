@@ -1,22 +1,12 @@
-# Stage 1: Build the Angular app
-FROM node:18-alpine AS build
-
+#stage 1
+FROM node:20-alpine as node
 WORKDIR /app
-
-# Install dependencies
-COPY package.json package-lock.json ./
-RUN npm install --silent
-
-# Copy project files and build
 COPY . .
-RUN npm run build --prod
+ENV NODE_OPTIONS="--max-old-space-size=8192"
+RUN npm install
+RUN npm run build --configuration=production.
+#stage 2
 
-# Stage 2: Serve with a lightweight web server
-FROM nginx:alpine
-
-# Copy built Angular files to NGINX
-COPY --from=build /app/dist/github-action /usr/share/nginx/html
-
-# Expose port and start NGINX
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:mainline-alpine-perl
+COPY --from=node /app/dist/github-action /usr/share/nginx/html
+COPY /nginx.conf  /etc/nginx/conf.d/default.conf
